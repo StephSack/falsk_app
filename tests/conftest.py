@@ -1,5 +1,14 @@
+import os
+import sys
 import sqlite3
 import pytest
+
+# Ensure the project root is on sys.path so CI (which may not set PYTHONPATH)
+# can import the application module as `app`.
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
+
 import app as myapp
 
 
