@@ -1,5 +1,13 @@
 import sqlite3
+import sys
+import pathlib
 import pytest
+
+# Ensure the project root (falsk_app) is on sys.path so imports like `import app` and `import DAL` work
+project_root = pathlib.Path(__file__).resolve().parents[1]
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
 import app as myapp
 
 
