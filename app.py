@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from DAL import create_connection, query_data, insert_data
+from DAL import create_connection, query_data, insert_data, initialize_database, get_table_columns
 from datetime import datetime
 import os
 from werkzeug.utils import secure_filename
@@ -14,6 +14,42 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 # Ensure the upload folder exists so saving doesn't fail when no images yet
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+
+# Database path (use absolute path inside the app so the file is predictable)
+DB_PATH = os.path.join(app.root_path, "projects.db")
+
+# Ensure database and tables exist (creates the app DB file with Title/Description/ImageFileName)
+initialize_database(DB_PATH)
+
+# Column name mapping will be detected at runtime so the app can work with test DBs
+# that use lowercase column names (title, description, image_filename).
+COLUMN_MAP = None
+
+def ensure_column_map():
+    """Detect which column names the connected DB uses and cache the mapping.
+
+    Returns a dict: {"title_col": ..., "desc_col": ..., "img_col": ...}
+    """
+    global COLUMN_MAP
+    if COLUMN_MAP is not None:
+        return COLUMN_MAP
+
+    # Use the app-level create_connection so tests can monkeypatch it
+    conn = None
+    try:
+        conn = create_connection(DB_PATH)
+        cols = get_table_columns(conn, "projects")
+    finally:
+        if conn:
+            conn.close()
+
+    # Prefer capitalized names created by initialize_database, but fall back to lowercase
+    title_col = "Title" if "Title" in cols else ("title" if "title" in cols else "Title")
+    desc_col = "Description" if "Description" in cols else ("description" if "description" in cols else "Description")
+    img_col = "ImageFileName" if "ImageFileName" in cols else ("image_filename" if "image_filename" in cols else "ImageFileName")
+
+    COLUMN_MAP = {"title_col": title_col, "desc_col": desc_col, "img_col": img_col}
+    return COLUMN_MAP
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -39,10 +75,11 @@ def resume():
 @app.route("/projects")
 def projectsPage():
     # Connect to the database and fetch all projects
-    conn = create_connection("projects.db")
+    conn = create_connection(DB_PATH)
     projects = []
     if conn:
-        query_sql = "SELECT rowid, title, description, image_filename FROM projects"
+        colmap = ensure_column_map()
+        query_sql = f"SELECT id, {colmap['title_col']}, {colmap['desc_col']}, {colmap['img_col']} FROM projects"
         rows = query_data(conn, query_sql)
         # Convert rows to dictionaries for easier access in the template
         projects = [
@@ -57,9 +94,9 @@ def projectsPage():
 @app.route("/delete_project/<int:project_id>", methods=["POST"])
 def delete_project(project_id):
     # Connect to the database
-    conn = create_connection("projects.db")
+    conn = create_connection(DB_PATH)
     if conn:
-        delete_sql = "DELETE FROM projects WHERE rowid = ?"
+        delete_sql = "DELETE FROM projects WHERE id = ?"
         insert_data(conn, delete_sql, (project_id,))
         conn.close()
 
@@ -94,9 +131,10 @@ def add_project():
             image_file.save(os.path.join(app.config["UPLOAD_FOLDER"], image_filename))
 
         # Connect to the database and insert the new project
-        conn = create_connection("projects.db")
+        conn = create_connection(DB_PATH)
         if conn:
-            insert_sql = "INSERT INTO projects (title, description, image_filename) VALUES (?, ?, ?)"
+            colmap = ensure_column_map()
+            insert_sql = f"INSERT INTO projects ({colmap['title_col']}, {colmap['desc_col']}, {colmap['img_col']}) VALUES (?, ?, ?)"
             insert_data(conn, insert_sql, (title, description, image_filename))
             conn.close()
 
