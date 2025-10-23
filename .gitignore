@@ -1,0 +1,77 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Explicit user-specified ignores (added to ensure they're present)
+*.pyc
+.venv/
+env/
+*.db
+.DS_Store
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# VS Code
+.vscode/
+
+# Pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# Logs
+*.log
+
+# SQLite DB
+*.db
+projects.db
+
+# Uploaded images (optional — remove this line if you want to track them)
+/static/images/
+
+# Docker
+docker-compose.override.yml
+Dockerfile*
+.dockerignore
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$.Spotlight-V100
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# JetBrains
+.idea/

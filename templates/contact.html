@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    {% extends "base.html" %}
+
+    {% block content %}
+    <section>
+        <h2>Get in Touch</h2>
+        <p>Phone: 631-553-7497</p>
+        <p>Email: <a href="mailto:spsack@iu.edu">spsack@iu.edu</a></p>
+
+        <form action="thankyou.html" method="post" style="display: flex; flex-direction: column; gap: 15px;">
+            <label for="first-name">First Name:</label>
+            <input type="text" id="first-name" name="first-name" required>
+
+            <label for="last-name">Last Name:</label>
+            <input type="text" id="last-name" name="last-name" required>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" minlength="8" required>
+
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" name="confirm-password" minlength="8" required oninput="checkPasswordMatch()">
+
+            <span id="password-error" style="color: red; display: none;">Passwords do not match.</span>
+
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+    {% endblock %}
+
+    <script>
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const errorSpan = document.getElementById('password-error');
+
+            if (password !== confirmPassword) {
+                errorSpan.style.display = 'block';
+            } else {
+                errorSpan.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

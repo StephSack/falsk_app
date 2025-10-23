@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    {% extends "base.html" %}
+
+    {% block content %}
+    <main>
+        <h2>Projects</h2>
+        {% for project in projects %}
+            <section>
+                <h3>{{ project.title }}</h3>
+                <p>{{ project.description }}</p>
+                {% if project.image_filename %}
+                    <img src="/static/images/{{ project.image_filename }}" alt="{{ project.title }}" class="project-image">
+                {% endif %}
+                <form action="/delete_project/{{ project.id }}" method="POST" style="margin-top: 1rem;">
+                    <button type="submit" style="padding: 0.5rem; background-color: #FF0000; color: white; border: none; border-radius: 4px; cursor: pointer;">Delete</button>
+                </form>
+            </section>
+        {% endfor %}
+    </main>
+    {% endblock %}
+</body>
+</html>

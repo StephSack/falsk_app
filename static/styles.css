@@ -1,0 +1,186 @@
+/* General Styles */
+body {
+    font-family: "Times New Roman", serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #eae4d3; /* Warm beige for Italian summer vibes */
+    color: #2c2c2c; /* Darker text for better contrast */
+}
+
+header {
+    background: #1b5e20; /* Darker forest green */
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+/* Home Logo */
+.logo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.logo i {
+    font-size: 24px;
+    color: #fff;
+    background-color: #1b5e20; /* Darker forest green */
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation Bar */
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #1b5e20; /* Darker forest green */
+    margin: 0;
+    padding: 10px 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    display: inline-block;
+}
+
+nav ul li a:hover {
+    background-color: #145214; /* Slightly darker green */
+    border-radius: 5px;
+}
+
+main {
+    padding: 2rem;
+    background: #fff;
+    border: 1px solid #ddd;
+    margin: 2rem auto;
+    max-width: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    background: #1b5e20; /* Darker forest green */
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Italian Summer Aesthetic */
+h1, h2 {
+    font-family: "Georgia", serif; /* Elegant serif font for headings */
+    color: #1b5e20; /* Dark green for headings */
+}
+
+p, ul {
+    font-family: "Times New Roman", serif;
+    color: #2c2c2c;
+}
+
+/* Image Formatting */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Updated the clickable link styling to match the green theme */
+.project .prototype-link {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #28a745; /* Green theme */
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.project .prototype-link:hover {
+    background-color: #218838; /* Darker green for hover effect */
+}
+
+/* Updated styling to stack the images vertically and fit each one to the screen */
+.image-gallery {
+    display: flex;
+    flex-direction: column; /* Stack images vertically */
+    align-items: center;
+    gap: 20px;
+}
+
+.image-gallery .project-image {
+    width: 100%; /* Fit each image to the screen */
+    height: auto;
+}
+
+/* Switched the arrow direction to point upward */
+.image-gallery .arrow {
+    font-size: 2em;
+    color: #28a745; /* Green theme */
+    transform: rotate(-90deg); /* Point arrow up */
+}
+
+/* Added styling for the green box and hover effect for the GitHub repo button */
+.github-repo {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.repo-box {
+    background-color: #28a745; /* Green background */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.repo-box:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.repo-button {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        font-size: 90%;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    main {
+        padding: 1rem;
+        margin: 1rem;
+    }
+}
