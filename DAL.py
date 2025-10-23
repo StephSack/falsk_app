@@ -10,6 +10,18 @@ def create_connection(db_file):
         print(f"Error connecting to database: {e}")
     return conn
 
+def get_table_columns(conn, table_name):
+    """Return a set of column names for the given table."""
+    try:
+        c = conn.cursor()
+        c.execute(f"PRAGMA table_info('{table_name}')")
+        rows = c.fetchall()
+        # rows: [(cid, name, type, notnull, dflt_value, pk), ...]
+        return {row[1] for row in rows}
+    except sqlite3.Error as e:
+        print(f"Error getting table info: {e}")
+        return set()
+
 def create_table(conn, create_table_sql):
     """ Create a table from the create_table_sql statement """
     try:
@@ -40,17 +52,24 @@ def query_data(conn, query_sql):
         print(f"Error querying data: {e}")
         return []
 
-def initialize_database():
-    """ Initialize the database and create the projects table """
-    database = "projects.db"
+def initialize_database(database=None):
+    """ Initialize the database and create the projects table.
+
+    If `database` is provided, it's used as the sqlite file path. Otherwise
+    the default `projects.db` is used in the current working directory.
+    The table will be created with column names: Title, Description,
+    ImageFileName (capitalized) to match the requested field names.
+    """
+    # Default database filename when none provided
+    database = database or "projects.db"
 
     # SQL statement to create the projects table
     create_projects_table = """
     CREATE TABLE IF NOT EXISTS projects (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
-        description TEXT NOT NULL,
-        image_filename TEXT NOT NULL
+        Title TEXT NOT NULL,
+        Description TEXT NOT NULL,
+        ImageFileName TEXT
     );
     """
 
